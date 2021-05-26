@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="calculadora">
+            <input type="text" class="pantalla" disabled v-model="data">
+            <div class='num'>
+                <input type="button" class="boton" value="7" v-on:click="add(event)">
+                <input type="button" class="boton" value="8" v-on:click="add(event)">
+                <input type="button" class="boton" value="9" v-on:click="add(event)">
+                <input type="button" class="boton" value="4" v-on:click="add(event)">
+                <input type="button" class="boton" value="5" v-on:click="add(event)">
+                <input type="button" class="boton" value="6" v-on:click="add(event)">
+                <input type="button" class="boton" value="1" v-on:click="add(event)">
+                <input type="button" class="boton" value="2" v-on:click="add(event)">
+                <input type="button" class="boton" value="3" v-on:click="add(event)">
+                <input type="button" class="boton" value="0" v-on:click="add(event)">
+                <input type="button" class="boton" value="." v-on:click="add(event)">
+                <input type="button" class="boton" value="=" v-on:click="equal()">
+            </div>
+            <div class="op">
+                <input type="button" class="boton" value="D" v-on:click="clean(event)">
+                <input type="button" class="boton" value="+" v-on:click="operate(event)">    
+                <input type="button" class="boton" value="-" v-on:click="operate(event)">
+                <input type="button" class="boton" value="/" v-on:click="operate(event)">
+                <input type="button" class="boton" value="*" v-on:click="operate(event)">
+            </div>
+            
+            
+            
+            
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12">
+    </script>
+    
+    <script >
+        new Vue({
+            el:'#app',
+            data:{
+                data:'',
+                first_value:'',
+                second_value:'',
+                operand:''
+            },
+            methods:{
+                add: function(n){
+                    if (this.data.includes('.') && n.target.value === '.'){
+                        return;
+                    }
+                    this.data += n.target.value
+                },
+                operate: function(n){
+                    if(this.data == '' && n.target.value == '-'){
+                        this.data = n.target.value;
+                        return;
+                    }
+                    if(this.data == '-'){ return; }
+                    this.first_value = this.data;
+                    this.operand = n.target.value;
+                    this.data = '';
+                },
+                clean: function(n){
+                    this.data = '';
+                    this.first_value = '';
+                    this.second_value = '';
+                    this.operand = '';
+                },
+                equal: function(){
+                    this.second_value = this.data;
+                    if (this.first_value !== '' && this.second_value !== ''){
+                        switch(this.operand){
+                            case '+': 
+                                this.data = parseFloat(this.first_value) + parseFloat(this.second_value)
+                                break;
+                            case '-': 
+                                this.data = parseFloat(this.first_value) - parseFloat(this.second_value)
+                                break;
+                            case '/': 
+                                this.data = parseFloat(this.first_value) / parseFloat(this.second_value)
+                                break;
+                            case '*': 
+                                this.data = parseFloat(this.first_value) * parseFloat(this.second_value)
+                                break;
+                        }
+                    }
+                    
+                }
+            }
+        });
+    </script>
+</body>
+</html>
